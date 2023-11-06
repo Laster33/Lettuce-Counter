@@ -144,21 +144,6 @@ def check_imgsz(imgsz, stride=32, min_dim=1, max_dim=2, floor=0):
 
     return sz
 
-def check_is_path_safe(basedir, path):
-    """
-    Check if the resolved path is under the intended directory to prevent path traversal.
-
-    Args:
-        basedir (Path | str): The intended directory.
-        path (Path | str): The path to check.
-
-    Returns:
-        (bool): True if the path is safe, False otherwise.
-    """
-    base_dir_resolved = Path(basedir).resolve()
-    path_resolved = Path(path).resolve()
-
-    return path_resolved.is_file() and path_resolved.parts[:len(base_dir_resolved.parts)] == base_dir_resolved.parts
 
 def check_version(current: str = '0.0.0',
                   required: str = '0.0.0',
@@ -476,6 +461,23 @@ def check_file(file, suffix='', download=True, hard=True):
 def check_yaml(file, suffix=('.yaml', '.yml'), hard=True):
     """Search/download YAML file (if necessary) and return path, checking suffix."""
     return check_file(file, suffix, hard=hard)
+
+
+def check_is_path_safe(basedir, path):
+    """
+    Check if the resolved path is under the intended directory to prevent path traversal.
+
+    Args:
+        basedir (Path | str): The intended directory.
+        path (Path | str): The path to check.
+
+    Returns:
+        (bool): True if the path is safe, False otherwise.
+    """
+    base_dir_resolved = Path(basedir).resolve()
+    path_resolved = Path(path).resolve()
+
+    return path_resolved.is_file() and path_resolved.parts[:len(base_dir_resolved.parts)] == base_dir_resolved.parts
 
 
 def check_imshow(warn=False):
